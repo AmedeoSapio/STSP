@@ -1,0 +1,44 @@
+#comment line starts with pound
+PARAMS
+DataFileDir ./Data
+
+MaxPopulationSize 50
+CrossoverRate 1
+MutationRate 0.1
+TournamentArity 2
+Seed 12345
+MaxSeconds 300
+MaxUnimprovedIterations 100000
+
+#number or repetitions for dealing with the random behavior  
+Repetitions 10
+
+OutputCsv results.csv
+
+ENDPARAMS
+INSTANCES
+berlin52.tsp
+eil51.tsp
+eil76.tsp
+pr152.tsp
+pr1002.tsp
+rat195.tsp
+#rat783.tsp
+#a280.tsp
+#bier127.tsp
+#ch130.tsp
+#ch150.tsp
+#d198.tsp
+#d493.tsp
+#lin318.tsp
+#eil101.tsp
+#fl417.tsp
+#kroA100.tsp
+#kroA200.tsp
+#rd100.tsp
+#rd400.tsp
+#tsp225.tsp
+#u159.tsp
+#u1060.tsp
+ENDINSTANCES
+EOF
