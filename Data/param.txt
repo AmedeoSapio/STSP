@@ -11,7 +11,7 @@ MaxSeconds 300
 MaxUnimprovedIterations 100000
 
 #number or repetitions for dealing with the random behavior  
-Repetitions 10
+Repetitions 2
 
 OutputCsv results.csv
 

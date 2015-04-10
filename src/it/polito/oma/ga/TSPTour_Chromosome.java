@@ -39,7 +39,7 @@ public class TSPTour_Chromosome extends AbstractListChromosome<Integer>{
 	}
 	
 	/**
-	 * Constructor for Traveling Salesaman Problem Chromosome
+	 * Constructor for Traveling Salesman Problem Chromosome
 	 * @param representation Representation of a tour
 	 * @param customers Customers coordinates
 	 * @param distanceMatrix The precalculated distance matrix
