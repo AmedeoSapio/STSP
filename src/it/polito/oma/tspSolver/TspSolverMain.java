@@ -59,7 +59,8 @@ public class TspSolverMain {
 				+"Seed: "+p.getSeed() +"\n"
 				+"MaxSeconds: "+p.getMaxSeconds() +"\n"
 				+"MaxUnimprovedIterations: "+p.getMaxUninmprovedIterations() +"\n"			  
-				+"Repetitions: "+p.getRepetitions() +"\n");
+				+"Repetitions: "+p.getRepetitions() +"\n"
+				+"ThreadNumber: "+p.getThreadNumber()+"\n");
 		
 		try {			
 			csvFileWriter=new FileWriter(csvFile); 	
@@ -105,7 +106,8 @@ public class TspSolverMain {
 				    p.getCrossoverRate(),	//Crossover rate
 				    new TwoOpt_MutationPolicy(),	//Mutation policy
 				    p.getMutationRate(),	//Mutation rate
-				    new TournamentDiversity_SelectionPolicy(p.getTournamentArity()) //Selection policy
+				    new TournamentDiversity_SelectionPolicy(p.getTournamentArity()), //Selection policy
+				    p.getThreadNumber() //number of threads
 				);
 									
 				//initial population

@@ -17,19 +17,21 @@ import org.apache.commons.math3.random.RandomGenerator;
 public class MultiThreadedGeneticAlgorithm extends GeneticAlgorithm{
 	
 	private ExecutorService executor;
+	private int threadNumber;
 	
 	public MultiThreadedGeneticAlgorithm(CrossoverPolicy crossoverPolicy,
 			double crossoverRate, MutationPolicy mutationPolicy,
-			double mutationRate, SelectionPolicy selectionPolicy)
+			double mutationRate, SelectionPolicy selectionPolicy, int threadNumber)
 			throws OutOfRangeException {
 		super(crossoverPolicy, crossoverRate, mutationPolicy, mutationRate,
-				selectionPolicy);		
+				selectionPolicy);
+		this.threadNumber = threadNumber;
 	}
 	
 	@Override
 	public Population evolve(final Population initial, final StoppingCondition condition) {
         
-		executor = Executors.newFixedThreadPool(4);
+		executor = Executors.newFixedThreadPool(threadNumber);
 		
 		Population result = super.evolve(initial, condition);
 		

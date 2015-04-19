@@ -13,6 +13,8 @@ MaxUnimprovedIterations 100000
 #number or repetitions for dealing with the random behavior  
 Repetitions 2
 
+ThreadNumber 4
+
 OutputCsv results.csv
 
 ENDPARAMS

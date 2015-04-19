@@ -33,6 +33,7 @@ public class FileParser {
 		int seed=12345;
 		int maxSeconds=-1;
 		int maxUnimprovedIterations=-1;
+		int threadNumber = 2;
 		
 		List<String> instances=new LinkedList<String>();
 		FileReader paramsFileReader=null;
@@ -99,7 +100,9 @@ public class FileParser {
 									if (maxUnimprovedIterations<0)
 										throw new Exception("Max Unimproved Iterations invalid or not present!");
 									
-									params=new Parameters(dataFileDir,outputFile,maxPopulationSize,crossoverRate,mutationRate,tournamentArity,seed,maxSeconds,maxUnimprovedIterations,repetitions,instances);
+									params=new Parameters(dataFileDir, outputFile,maxPopulationSize,
+											crossoverRate,mutationRate,tournamentArity,seed,maxSeconds,
+											maxUnimprovedIterations,repetitions,threadNumber, instances);
 									return params;
 								default:
 									throw new Exception("Invalid parameters file format!");
@@ -139,6 +142,8 @@ public class FileParser {
 								maxUnimprovedIterations=Integer.parseInt(nextToken);							
 							else if(token.equalsIgnoreCase("Repetitions"))
 								repetitions=Integer.parseInt(nextToken);
+							else if(token.equalsIgnoreCase("ThreadNumber"))
+								threadNumber=Integer.parseInt(nextToken);
 							//else skip line							
 						}
 						break;

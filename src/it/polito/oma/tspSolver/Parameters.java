@@ -18,12 +18,13 @@ public class Parameters {
 	private int _maxSeconds;
 	private int _maxUnimprovedIterations;
 	private int _repetitions;
+	private int _threadNumber;
 	private List<String> _instances;
 	private String _outputFile;
 	
 	public Parameters(String dataFileDir, String outputFile, int maxPopulationSize, double crossoverRate,
 			double mutationRate, int tournamentArity, int seed, int maxSeconds,
-			int maxUninmprovedIterations, int repetitions,
+			int maxUninmprovedIterations, int repetitions, int threadNumber,
 			List<String> instances) {
 		super();
 		this._dataFileDir = dataFileDir;
@@ -37,6 +38,7 @@ public class Parameters {
 		this._repetitions = repetitions;
 		this._instances = instances;
 		this._outputFile=outputFile;
+		this._threadNumber=threadNumber;
 	}
 	
 	public String getDataFileDir() {
@@ -109,6 +111,14 @@ public class Parameters {
 
 	public void setRepetitions(int repetitions) {
 		this._repetitions = repetitions;
+	}
+	
+	public int getThreadNumber() {
+		return _threadNumber;
+	}
+
+	public void setThreadNumber(int threadNumber) {
+		this._threadNumber = threadNumber;
 	}
 
 	public List<String> getInstances() {
