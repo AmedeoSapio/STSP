@@ -11,7 +11,7 @@ import org.apache.commons.math3.genetics.InvalidRepresentationException;
  * A chromosome representing a TSP tour.
  * @author Amedeo Sapio (amedeo.sapio@gmail.com)
  */
-public class TSPTour_Chromosome extends AbstractListChromosome<Integer>{
+public class TspChromosome extends AbstractListChromosome<Integer>{
 	
 	//a chromosome is IMMUTABLE
 	
@@ -24,7 +24,7 @@ public class TSPTour_Chromosome extends AbstractListChromosome<Integer>{
 	 * @param customers Customers coordinates
 	 * @throws InvalidRepresentationException iff the representation can not represent a valid chromosome
 	 */	
-	public TSPTour_Chromosome(List<Integer> representation, double[][] customers)
+	public TspChromosome(List<Integer> representation, double[][] customers)
 			throws InvalidRepresentationException {
 		super(representation);
 		
@@ -35,7 +35,7 @@ public class TSPTour_Chromosome extends AbstractListChromosome<Integer>{
         
         for (int i=0; i<customers.length; i++)
         	for (int j=0; j<customers.length; j++)
-        		distanceMatrix[i][j]=TSPTour_Chromosome.norm(customers, i, j);        
+        		distanceMatrix[i][j]=TspChromosome.norm(customers, i, j);        
 	}
 	
 	/**
@@ -45,7 +45,7 @@ public class TSPTour_Chromosome extends AbstractListChromosome<Integer>{
 	 * @param distanceMatrix The precalculated distance matrix
 	 * @throws InvalidRepresentationException iff the representation can not represent a valid chromosome
 	 */	
-	public TSPTour_Chromosome(List<Integer> representation, double[][] customers, long [][] distanceMatrix)
+	public TspChromosome(List<Integer> representation, double[][] customers, long [][] distanceMatrix)
 			throws InvalidRepresentationException {
 		super(representation);
 		
@@ -147,7 +147,7 @@ public class TSPTour_Chromosome extends AbstractListChromosome<Integer>{
 	public AbstractListChromosome<Integer> newFixedLengthChromosome(
 			List<Integer> chromosomeRepresentation) {
 		
-		return new TSPTour_Chromosome(chromosomeRepresentation, customers, distanceMatrix);
+		return new TspChromosome(chromosomeRepresentation, customers, distanceMatrix);
 	}
 	 
 	/**

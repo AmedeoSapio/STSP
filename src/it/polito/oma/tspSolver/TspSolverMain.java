@@ -1,10 +1,17 @@
 package it.polito.oma.tspSolver;
 
-import it.polito.oma.ga.TSPTour_Chromosome;
+import it.polito.oma.ga.MultiThreadedGeneticAlgorithm;
+import it.polito.oma.ga.TspChromosome;
 import it.polito.oma.ga.SaveOnlyTheBest_Population;
 import it.polito.oma.ga.TimedNIterationsUnchanged;
 import it.polito.oma.ga.TournamentDiversity_SelectionPolicy;
 import it.polito.oma.ga.TwoOpt_MutationPolicy;
+import it.polito.oma.ts.TspGreedyStartSolution;
+import it.polito.oma.ts.TspMoveManager;
+import it.polito.oma.ts.TspObjectiveFunction;
+import it.polito.oma.ts.TspSolution;
+import it.polito.oma.ts.TspTSListener;
+import it.polito.oma.ts.TspTabuList;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -16,6 +23,14 @@ import java.util.List;
 import org.apache.commons.math3.genetics.*;
 import org.apache.commons.math3.random.JDKRandomGenerator;
 import org.apache.commons.math3.random.RandomGenerator;
+import org.coinor.opents.BestEverAspirationCriteria;
+import org.coinor.opents.MoveManager;
+import org.coinor.opents.MultiThreadedTabuSearch;
+import org.coinor.opents.ObjectiveFunction;
+import org.coinor.opents.SimpleTabuList;
+import org.coinor.opents.Solution;
+import org.coinor.opents.TabuList;
+import org.coinor.opents.TabuSearch;
 
 /**
  * The starting point of the TSP solver.
@@ -85,7 +100,7 @@ public class TspSolverMain {
 				//Genetic Algorithm 
 							
 				//initialize a new genetic algorithm	
-				GeneticAlgorithm ga = new GeneticAlgorithm(
+				GeneticAlgorithm ga = new MultiThreadedGeneticAlgorithm(
 				    new OrderedCrossover<Integer>(),	//Crossover policy
 				    p.getCrossoverRate(),	//Crossover rate
 				    new TwoOpt_MutationPolicy(),	//Mutation policy
@@ -119,7 +134,7 @@ public class TspSolverMain {
 				if(instance.getMinSolution()==0 || bestFinal.getFitness()<instance.getMinSolution()){
 					instance.setMinSolution(bestFinal.getFitness());
 					instance.setTimeBest(endTime-startTime);
-					instance.setOptTour(((TSPTour_Chromosome)bestFinal).getTour());
+					instance.setOptTour(((TspChromosome)bestFinal).getTour());
 				}
 				
 				if(instance.getMaxSolution()==0 || bestFinal.getFitness()>instance.getMaxSolution())
@@ -137,7 +152,7 @@ public class TspSolverMain {
 			if(optTourFile.exists()){
 				List <Integer> optTour=FileParser.readTourFile(optTourFile);
 				if(optTour!=null){
-					TSPTour_Chromosome optChromosome=new TSPTour_Chromosome(optTour, instance.getCustomers());
+					TspChromosome optChromosome=new TspChromosome(optTour, instance.getCustomers());
 					instance.setBestKnownSolution(optChromosome.getFitness());					
 				}
 			}
@@ -249,7 +264,7 @@ public class TspSolverMain {
                     representation.add(j, tempVertices.remove(rg.nextInt(tempVertices.size())));
             }
         	
-            TSPTour_Chromosome randomChromosome = new TSPTour_Chromosome(representation, customers);
+            TspChromosome randomChromosome = new TspChromosome(representation, customers);
             population.add(randomChromosome);
         }
 
@@ -280,7 +295,7 @@ public class TspSolverMain {
         
         for (int i=0; i<customers.length; i++)
         	for (int j=0; j<customers.length; j++)
-        		distanceMatrix[i][j]=TSPTour_Chromosome.norm(customers, i, j);
+        		distanceMatrix[i][j]=TspChromosome.norm(customers, i, j);
         
         for (int i=0; i<populationSize; i++) {
         	
@@ -322,11 +337,47 @@ public class TspSolverMain {
             		availableVertices.remove(choosen);
             }
         	
-            TSPTour_Chromosome newChromosome = new TSPTour_Chromosome(representation, customers,distanceMatrix);
+            TspChromosome newChromosome = new TspChromosome(representation, customers,distanceMatrix);
             population.add(newChromosome);
         }//end for
         
         return new SaveOnlyTheBest_Population(population, populationLimit);
+    }
+    
+    /**
+     * Executes Tabu Search algorithm
+     */
+    public static Chromosome runTS(Chromosome initial){
+    	
+
+        ObjectiveFunction objFunc = new TspObjectiveFunction( new double[1][1] );
+        //      Solution initialSolution  = new MySolution( customers );
+        Solution initialSolution  = new TspGreedyStartSolution( new double[1][1] );
+        MoveManager   moveManager = new TspMoveManager();
+        TabuList         tabuList = new SimpleTabuList( 7 ); // In OpenTS package
+        TabuList         tabuList2 = new TspTabuList( 7 );
+      
+        // Create Tabu Search object
+        TabuSearch tabuSearch = new MultiThreadedTabuSearch(
+              initialSolution,
+              moveManager,
+              objFunc,
+            tabuList,
+            // tabuList2,
+              new BestEverAspirationCriteria(), // In OpenTS package
+              false ); // maximizing = yes/no; false means minimizing
+      
+	      TspTSListener myListener = new TspTSListener();
+	      tabuSearch.addTabuSearchListener(myListener);
+	
+	      
+	      // Start solving
+	      tabuSearch.setIterationsToGo( 1000 );
+	      tabuSearch.startSolving();
+	      
+	      // Show solution
+	      TspSolution best = (TspSolution)tabuSearch.getBestSolution();
+	      return initial;
     }
 
 }

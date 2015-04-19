@@ -37,7 +37,7 @@ import org.apache.commons.math3.random.RandomGenerator;
  * c = (H B A C D G E F)
  * </pre>
  * <p>
- * This policy works only on {@link TSPTour_Chromosome}, and therefore it
+ * This policy works only on {@link TspChromosome}, and therefore it
  * is parameterized by T. Moreover, the chromosomes must have same lengths.
  *
  *
@@ -50,7 +50,7 @@ public class GreedySubtourCrossover implements CrossoverPolicy {
      * {@inheritDoc}
      *
      * @throws MathIllegalArgumentException if one of the chromosomes is
-     *   not an instance of {@link TSPTour_Chromosome}
+     *   not an instance of {@link TspChromosome}
      * @throws DimensionMismatchException if the length of the two chromosomes is different
      */
 	
@@ -58,12 +58,12 @@ public class GreedySubtourCrossover implements CrossoverPolicy {
 	public ChromosomePair crossover(Chromosome first, Chromosome second)
 			throws MathIllegalArgumentException {
 		 
-		if (!(first instanceof TSPTour_Chromosome && second instanceof TSPTour_Chromosome)) 
+		if (!(first instanceof TspChromosome && second instanceof TspChromosome)) 
 			throw new MathIllegalArgumentException(new DummyLocalizable("GreedySubtourCrossover works only with TSPTour_Chromosome"));
 	        
 		
-		TSPTour_Chromosome firstChromosome=(TSPTour_Chromosome)first;
-		TSPTour_Chromosome secondChromosome=(TSPTour_Chromosome)second;
+		TspChromosome firstChromosome=(TspChromosome)first;
+		TspChromosome secondChromosome=(TspChromosome)second;
 		List<Integer> firstRepresentation=firstChromosome.getRepresentation();
 		List<Integer> secondRepresentation=secondChromosome.getRepresentation();
 		int chromosomeSize=firstRepresentation.size();

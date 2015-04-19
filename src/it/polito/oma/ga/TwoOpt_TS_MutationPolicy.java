@@ -1,5 +1,7 @@
 package it.polito.oma.ga;
 
+import it.polito.oma.tspSolver.TspSolverMain;
+
 import java.util.Arrays;
 
 import org.apache.commons.math3.exception.MathIllegalArgumentException;
@@ -12,7 +14,7 @@ import org.apache.commons.math3.genetics.MutationPolicy;
  * @author Amedeo Sapio (amedeo.sapio@gmail.com)
  */
 
-public class TwoOpt_MutationPolicy implements MutationPolicy{
+public class TwoOpt_TS_MutationPolicy implements MutationPolicy{
 	/**
      * Mutate the given chromosome. 2-opt algorithm as described in http://en.wikipedia.org/wiki/2-opt
      *
@@ -82,9 +84,10 @@ public class TwoOpt_MutationPolicy implements MutationPolicy{
                     }
             }
         }
-        
-        Chromosome newChromosome = original.newFixedLengthChromosome(Arrays.asList(arrayRepresentation));
-        
+                
+        // Run Tabu Search
+        Chromosome newChromosome = TspSolverMain.runTS(original.newFixedLengthChromosome(Arrays.asList(arrayRepresentation)));
+      
         return newChromosome;
 	}
 }

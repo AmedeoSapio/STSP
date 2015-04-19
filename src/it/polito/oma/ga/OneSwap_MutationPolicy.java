@@ -10,7 +10,7 @@ import org.apache.commons.math3.genetics.GeneticAlgorithm;
 import org.apache.commons.math3.genetics.MutationPolicy;
 
 /**
- * Mutation for {@link TSPTour_Chromosome}s. Randomly swaps two genes.
+ * Mutation for {@link TspChromosome}s. Randomly swaps two genes.
  * @author Amedeo Sapio (amedeo.sapio@gmail.com)
  */
 public class OneSwap_MutationPolicy implements MutationPolicy{
@@ -19,16 +19,16 @@ public class OneSwap_MutationPolicy implements MutationPolicy{
      *
      * @param originalChromosome the original chromosome.
      * @return the mutated chromosome.
-     * @throws MathIllegalArgumentException if <code>originalChromosome</code> is not an instance of {@link TSPTour_Chromosome}.
+     * @throws MathIllegalArgumentException if <code>originalChromosome</code> is not an instance of {@link TspChromosome}.
      */
 	@Override
 	public Chromosome mutate(Chromosome originalChromosome)
 			throws MathIllegalArgumentException {
 		
-		if (!(originalChromosome instanceof TSPTour_Chromosome)) 
+		if (!(originalChromosome instanceof TspChromosome)) 
             throw new MathIllegalArgumentException(new DummyLocalizable("OneSwap_MutationPolicy works on TSPTour_Chromosome only"));
         
-		TSPTour_Chromosome  original= (TSPTour_Chromosome) originalChromosome;
+		TspChromosome  original= (TspChromosome) originalChromosome;
         
 		//make a copy of the original unmodifiable representation
 		List<Integer> newRepresentation = new ArrayList<Integer>(original.getRepresentation());
