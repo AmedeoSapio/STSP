@@ -1,4 +1,4 @@
-package it.polito.oma.tspSolver;
+package it.polito.tspSolver;
 
 import java.util.List;
 

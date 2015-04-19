@@ -1,17 +1,17 @@
-package it.polito.oma.tspSolver;
+package it.polito.tspSolver;
 
-import it.polito.oma.ga.MultiThreadedGeneticAlgorithm;
-import it.polito.oma.ga.TspChromosome;
-import it.polito.oma.ga.SaveOnlyTheBest_Population;
-import it.polito.oma.ga.TimedNIterationsUnchanged;
-import it.polito.oma.ga.TournamentDiversity_SelectionPolicy;
-import it.polito.oma.ga.TwoOpt_MutationPolicy;
-import it.polito.oma.ts.TspGreedyStartSolution;
-import it.polito.oma.ts.TspMoveManager;
-import it.polito.oma.ts.TspObjectiveFunction;
-import it.polito.oma.ts.TspSolution;
-import it.polito.oma.ts.TspTSListener;
-import it.polito.oma.ts.TspTabuList;
+import it.polito.ga.MultiThreadedGeneticAlgorithm;
+import it.polito.ga.SaveOnlyTheBest_Population;
+import it.polito.ga.TimedNIterationsUnchanged;
+import it.polito.ga.TournamentDiversity_SelectionPolicy;
+import it.polito.ga.TspChromosome;
+import it.polito.ga.TwoOpt_MutationPolicy;
+import it.polito.ts.TspGreedyStartSolution;
+import it.polito.ts.TspMoveManager;
+import it.polito.ts.TspObjectiveFunction;
+import it.polito.ts.TspSolution;
+import it.polito.ts.TspTSListener;
+import it.polito.ts.TspTabuList;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -349,7 +349,7 @@ public class TspSolverMain {
     /**
      * Executes Tabu Search algorithm
      */
-    public static Chromosome runTS(Chromosome initial){
+    public static Chromosome runTS(Chromosome initial, Parameters p){
     	
 
         ObjectiveFunction objFunc = new TspObjectiveFunction( new double[1][1] );
@@ -360,7 +360,7 @@ public class TspSolverMain {
         TabuList         tabuList2 = new TspTabuList( 7 );
       
         // Create Tabu Search object
-        TabuSearch tabuSearch = new MultiThreadedTabuSearch(
+        MultiThreadedTabuSearch tabuSearch = new MultiThreadedTabuSearch(
               initialSolution,
               moveManager,
               objFunc,
@@ -368,18 +368,20 @@ public class TspSolverMain {
             // tabuList2,
               new BestEverAspirationCriteria(), // In OpenTS package
               false ); // maximizing = yes/no; false means minimizing
-      
-	      TspTSListener myListener = new TspTSListener();
-	      tabuSearch.addTabuSearchListener(myListener);
-	
-	      
-	      // Start solving
-	      tabuSearch.setIterationsToGo( 1000 );
-	      tabuSearch.startSolving();
-	      
-	      // Show solution
-	      TspSolution best = (TspSolution)tabuSearch.getBestSolution();
-	      return initial;
+          
+        tabuSearch.setThreads(p.getThreadNumber());
+
+		TspTSListener myListener = new TspTSListener();
+		tabuSearch.addTabuSearchListener(myListener);
+		
+		  
+		// Start solving
+		tabuSearch.setIterationsToGo( 1000 );
+		tabuSearch.startSolving();
+		  
+		// Show solution
+		TspSolution best = (TspSolution)tabuSearch.getBestSolution();
+      return initial;
     }
 
 }

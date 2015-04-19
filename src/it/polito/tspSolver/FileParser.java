@@ -1,4 +1,4 @@
-package it.polito.oma.tspSolver;
+package it.polito.tspSolver;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -33,7 +33,7 @@ public class FileParser {
 		int seed=12345;
 		int maxSeconds=-1;
 		int maxUnimprovedIterations=-1;
-		int threadNumber = 2;
+		int threadNumber = Runtime.getRuntime().availableProcessors();
 		
 		List<String> instances=new LinkedList<String>();
 		FileReader paramsFileReader=null;

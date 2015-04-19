@@ -1,4 +1,4 @@
-#comment line starts with pound
+# Comment line starts with pound
 PARAMS
 DataFileDir ./Data
 
@@ -10,10 +10,11 @@ Seed 12345
 MaxSeconds 300
 MaxUnimprovedIterations 100000
 
-#number or repetitions for dealing with the random behavior  
+# Number or repetitions for dealing with the random behavior  
 Repetitions 2
 
-ThreadNumber 4
+# Number of thread (by default equal to the number of processors available to the JVM) 
+#ThreadNumber 2
 
 OutputCsv results.csv
 

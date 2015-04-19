@@ -1,4 +1,4 @@
-package it.polito.oma.ts;
+package it.polito.ts;
 
 import org.coinor.opents.*;
 

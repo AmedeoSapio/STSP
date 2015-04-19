@@ -1,4 +1,4 @@
-package it.polito.oma.ga;
+package it.polito.ga;
 
 
 import java.util.ArrayList;

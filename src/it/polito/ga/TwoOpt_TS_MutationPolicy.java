@@ -1,6 +1,6 @@
-package it.polito.oma.ga;
+package it.polito.ga;
 
-import it.polito.oma.tspSolver.TspSolverMain;
+import it.polito.tspSolver.TspSolverMain;
 
 import java.util.Arrays;
 
