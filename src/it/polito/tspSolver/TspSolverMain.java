@@ -292,12 +292,16 @@ public class TspSolverMain {
         //list from which choose the initial node
         List <Integer> initialChoiceVertices=new ArrayList<Integer>(vertices); 
         
-        //build the distance matrix
+        //build the symmetric distance matrix
         long [][] distanceMatrix= new long[customers.length][customers.length];
-        
-        for (int i=0; i<customers.length; i++)
-        	for (int j=0; j<customers.length; j++)
+                
+        for (int i=0; i<customers.length; i++){
+			distanceMatrix[i][i]=0;
+        	for (int j=i+1; j<customers.length; j++){
         		distanceMatrix[i][j]=TspChromosome.norm(customers, i, j);
+        		distanceMatrix[j][i]=distanceMatrix[i][j];
+        	}        	
+		}        
         
         for (int i=0; i<populationSize; i++) {
         	
