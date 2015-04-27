@@ -14,7 +14,11 @@ MaxUnimprovedIterations 100000
 Repetitions 2
 
 # Number of thread (by default equal to the number of processors available to the JVM) 
-#ThreadNumber 2
+#ThreadNumber 4
+
+# Tabu Search params
+TSMaxIterations 10
+TabuTenure 5
 
 OutputCsv results.csv
 

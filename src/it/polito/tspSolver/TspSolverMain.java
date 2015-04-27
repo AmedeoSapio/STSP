@@ -5,13 +5,7 @@ import it.polito.ga.SaveOnlyTheBest_Population;
 import it.polito.ga.TimedNIterationsUnchanged;
 import it.polito.ga.TournamentDiversity_SelectionPolicy;
 import it.polito.ga.TspChromosome;
-import it.polito.ga.TwoOpt_MutationPolicy;
-import it.polito.ts.TspGreedyStartSolution;
-import it.polito.ts.TspMoveManager;
-import it.polito.ts.TspObjectiveFunction;
-import it.polito.ts.TspSolution;
-import it.polito.ts.TspTSListener;
-import it.polito.ts.TspTabuList;
+import it.polito.ga.TabuSearch_MutationPolicy;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -23,14 +17,6 @@ import java.util.List;
 import org.apache.commons.math3.genetics.*;
 import org.apache.commons.math3.random.JDKRandomGenerator;
 import org.apache.commons.math3.random.RandomGenerator;
-import org.coinor.opents.BestEverAspirationCriteria;
-import org.coinor.opents.MoveManager;
-import org.coinor.opents.MultiThreadedTabuSearch;
-import org.coinor.opents.ObjectiveFunction;
-import org.coinor.opents.SimpleTabuList;
-import org.coinor.opents.Solution;
-import org.coinor.opents.TabuList;
-import org.coinor.opents.TabuSearch;
 
 /**
  * The starting point of the TSP solver.
@@ -60,7 +46,9 @@ public class TspSolverMain {
 				+"MaxSeconds: "+p.getMaxSeconds() +"\n"
 				+"MaxUnimprovedIterations: "+p.getMaxUninmprovedIterations() +"\n"			  
 				+"Repetitions: "+p.getRepetitions() +"\n"
-				+"ThreadNumber: "+p.getThreadNumber()+"\n");
+				+"ThreadNumber: "+p.getThreadNumber()+"\n"
+				+"TSMaxIterations: "+p.getTSMaxIterations()+"\n"
+				+"TabuTenure: "+p.getTabuTenure()+"\n");
 		
 		try {			
 			csvFileWriter=new FileWriter(csvFile); 	
@@ -99,12 +87,13 @@ public class TspSolverMain {
 				long startTime=System.nanoTime();
 				
 				//Genetic Algorithm 
-							
+				
 				//initialize a new genetic algorithm	
 				GeneticAlgorithm ga = new MultiThreadedGeneticAlgorithm(
 				    new OrderedCrossover<Integer>(),	//Crossover policy
 				    p.getCrossoverRate(),	//Crossover rate
-				    new TwoOpt_MutationPolicy(),	//Mutation policy
+				    //new TwoOpt_MutationPolicy(),	//Mutation policy
+				    new TabuSearch_MutationPolicy(p.getTabuTenure(), p.getTSMaxIterations()),
 				    p.getMutationRate(),	//Mutation rate
 				    new TournamentDiversity_SelectionPolicy(p.getTournamentArity()), //Selection policy
 				    p.getThreadNumber() //number of threads
@@ -349,43 +338,4 @@ public class TspSolverMain {
         
         return new SaveOnlyTheBest_Population(population, populationLimit);
     }
-    
-    /**
-     * Executes Tabu Search algorithm
-     */
-    public static Chromosome runTS(Chromosome initial, Parameters p){
-    	
-
-        ObjectiveFunction objFunc = new TspObjectiveFunction( new double[1][1] );
-        //      Solution initialSolution  = new MySolution( customers );
-        Solution initialSolution  = new TspGreedyStartSolution( new double[1][1] );
-        MoveManager   moveManager = new TspMoveManager();
-        TabuList         tabuList = new SimpleTabuList( 7 ); // In OpenTS package
-        TabuList         tabuList2 = new TspTabuList( 7 );
-      
-        // Create Tabu Search object
-        MultiThreadedTabuSearch tabuSearch = new MultiThreadedTabuSearch(
-              initialSolution,
-              moveManager,
-              objFunc,
-            tabuList,
-            // tabuList2,
-              new BestEverAspirationCriteria(), // In OpenTS package
-              false ); // maximizing = yes/no; false means minimizing
-          
-        tabuSearch.setThreads(p.getThreadNumber());
-
-		TspTSListener myListener = new TspTSListener();
-		tabuSearch.addTabuSearchListener(myListener);
-		
-		  
-		// Start solving
-		tabuSearch.setIterationsToGo( 1000 );
-		tabuSearch.startSolving();
-		  
-		// Show solution
-		TspSolution best = (TspSolution)tabuSearch.getBestSolution();
-      return initial;
-    }
-
 }

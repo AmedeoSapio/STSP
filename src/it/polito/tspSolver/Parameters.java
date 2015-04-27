@@ -19,12 +19,14 @@ public class Parameters {
 	private int _maxUnimprovedIterations;
 	private int _repetitions;
 	private int _threadNumber;
+	private int _tsMaxIterations;
+	private int _tabuTenure;	
 	private List<String> _instances;
 	private String _outputFile;
 	
 	public Parameters(String dataFileDir, String outputFile, int maxPopulationSize, double crossoverRate,
 			double mutationRate, int tournamentArity, int seed, int maxSeconds,
-			int maxUninmprovedIterations, int repetitions, int threadNumber,
+			int maxUninmprovedIterations, int repetitions, int threadNumber, int tsMaxIterations, int tabuTenure,
 			List<String> instances) {
 		super();
 		this._dataFileDir = dataFileDir;
@@ -37,10 +39,12 @@ public class Parameters {
 		this._maxUnimprovedIterations = maxUninmprovedIterations;
 		this._repetitions = repetitions;
 		this._instances = instances;
-		this._outputFile=outputFile;
-		this._threadNumber=threadNumber;
+		this._outputFile = outputFile;
+		this._threadNumber = threadNumber;
+		this._tsMaxIterations = tsMaxIterations;
+		this._tabuTenure = tabuTenure;
 	}
-	
+
 	public String getDataFileDir() {
 		return _dataFileDir;
 	}
@@ -119,6 +123,22 @@ public class Parameters {
 
 	public void setThreadNumber(int threadNumber) {
 		this._threadNumber = threadNumber;
+	}
+	
+	public int getTSMaxIterations() {
+		return _tsMaxIterations;
+	}
+
+	public void setTSMaxIterations(int tsMaxIterations) {
+		this._tsMaxIterations = tsMaxIterations;
+	}
+
+	public int getTabuTenure() {
+		return _tabuTenure;
+	}
+
+	public void setTabuTenure(int tabuTenure) {
+		this._tabuTenure = tabuTenure;
 	}
 
 	public List<String> getInstances() {

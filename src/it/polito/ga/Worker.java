@@ -8,6 +8,11 @@ import org.apache.commons.math3.genetics.MutationPolicy;
 import org.apache.commons.math3.genetics.Population;
 import org.apache.commons.math3.random.RandomGenerator;
 
+/**
+ * Worker thread to evolve the given population into the next generation
+ * @author Amedeo Sapio (amedeo.sapio@gmail.com) 
+ *
+ */
 public class Worker extends Thread{
 
 	ChromosomePair pair;  

@@ -34,6 +34,8 @@ public class FileParser {
 		int maxSeconds=-1;
 		int maxUnimprovedIterations=-1;
 		int threadNumber = Runtime.getRuntime().availableProcessors();
+		int tsMaxiterations=-1;
+		int tabuTenure=-1;
 		
 		List<String> instances=new LinkedList<String>();
 		FileReader paramsFileReader=null;
@@ -99,10 +101,15 @@ public class FileParser {
 										throw new Exception("Max Seconds invalid or not present!");
 									if (maxUnimprovedIterations<0)
 										throw new Exception("Max Unimproved Iterations invalid or not present!");
+									if (tsMaxiterations<0)
+										throw new Exception("Max Tabu Search Iterations invalid or not present!");
+									if (tabuTenure<0)
+										throw new Exception("Tabu Tenure invalid or not present!");
 									
-									params=new Parameters(dataFileDir, outputFile,maxPopulationSize,
-											crossoverRate,mutationRate,tournamentArity,seed,maxSeconds,
-											maxUnimprovedIterations,repetitions,threadNumber, instances);
+									params=new Parameters(dataFileDir, outputFile, maxPopulationSize,
+											crossoverRate, mutationRate, tournamentArity, seed, maxSeconds,
+											maxUnimprovedIterations, repetitions, threadNumber, tsMaxiterations,
+											tabuTenure, instances);
 									return params;
 								default:
 									throw new Exception("Invalid parameters file format!");
@@ -144,6 +151,10 @@ public class FileParser {
 								repetitions=Integer.parseInt(nextToken);
 							else if(token.equalsIgnoreCase("ThreadNumber"))
 								threadNumber=Integer.parseInt(nextToken);
+							else if(token.equalsIgnoreCase("TSMaxIterations"))
+								tsMaxiterations=Integer.parseInt(nextToken);
+							else if(token.equalsIgnoreCase("TabuTenure"))
+								tabuTenure=Integer.parseInt(nextToken);
 							//else skip line							
 						}
 						break;
@@ -426,5 +437,4 @@ public class FileParser {
 			return null;
 		}	
 	}//end readTourFile
-	
 }

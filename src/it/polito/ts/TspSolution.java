@@ -1,44 +1,68 @@
 package it.polito.ts;
+
+import java.util.Arrays;
+import java.util.List;
+
+import it.polito.ga.TspChromosome;
+
 import org.coinor.opents.*;
 
-
+/**
+ * This class is a wrapper of the TspChromosome.
+ * @author Amedeo Sapio (amedeo.sapio@gmail.com)
+ *
+ */
 public class TspSolution extends SolutionAdapter 
-{
-    public int[] tour;
-    
-    public TspSolution(){} // Appease clone()
-    
-    public TspSolution( double[][] customers )
-    {
-        // Crudely initialize solution
-        tour = new int[ customers.length ];
-        for( int i = 0; i < customers.length; i++ )
-            tour[i] = i;
+{    
+	private static final long serialVersionUID = 1L;
+	
+	private TspChromosome chromosome;
+  
+	public TspSolution( TspChromosome chromosome)
+    {    	
+    	this.chromosome = (TspChromosome)chromosome; 
+        setObjectiveValue(new double[]{chromosome.getFitness()});
     }   // end constructor
     
+    public List<Integer> getTour(){
+    	return chromosome.getTour();
+    }
+    
+    public Integer[] getTourAsArray(){
+    	return chromosome.getTourAsArray();
+    }
+    
+    public Integer getElement(int index){
+    	return chromosome.getElement(index%chromosome.getLength());
+    }
+    
+    public long norm(int first, int second){
+    	return chromosome.norm(first, second);    	
+    }
+    
+    /**
+     * Update the solution.
+     * @param arrayRepresentation The new solution representation.
+     */
+    public void updateSolution(Integer[] arrayRepresentation){
+    	chromosome = (TspChromosome)chromosome.newFixedLengthChromosome(Arrays.asList(arrayRepresentation));
+    	setObjectiveValue(new double[]{chromosome.getFitness()});
+    }
+    
+    public TspChromosome getChromosome() {
+  		return chromosome;
+  	}
     
     public Object clone()
     {   
         TspSolution copy = (TspSolution)super.clone();
-        copy.tour = (int[])this.tour.clone();
+        copy.chromosome = this.chromosome;
         return copy;
     }   // end clone
-    
-    
+        
     public String toString()
     {
-        StringBuffer s = new StringBuffer();
-        
-        s.append( "Solution value: " + getObjectiveValue()[0] );
-        s.append( "Sequence: [ " );
-        
-        for( int i = 0; i < tour.length - 1; i++ )
-            s.append( tour[i] ).append( ", " );
-        
-        s.append( tour[ tour.length - 1 ] );
-        s.append( " ]" );
-        
-        return s.toString();
+        return chromosome.toString();
     }   // end toString
     
 }   // end class MySolution

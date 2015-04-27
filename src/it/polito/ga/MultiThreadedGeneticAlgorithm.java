@@ -14,11 +14,26 @@ import org.apache.commons.math3.genetics.SelectionPolicy;
 import org.apache.commons.math3.genetics.StoppingCondition;
 import org.apache.commons.math3.random.RandomGenerator;
 
+/**
+ * Implementation of a parallel genetic algorithm. All factors that govern the operation
+ * of the algorithm can be configured for a specific problem.
+ * @author Amedeo Sapio (amedeo.sapio@gmail.com) 
+ */
 public class MultiThreadedGeneticAlgorithm extends GeneticAlgorithm{
 	
 	private ExecutorService executor;
 	private int threadNumber;
 	
+	/**
+     * Create a new genetic algorithm.
+     * @param crossoverPolicy The {@link CrossoverPolicy}
+     * @param crossoverRate The crossover rate as a percentage (0-1 inclusive)
+     * @param mutationPolicy The {@link MutationPolicy}
+     * @param mutationRate The mutation rate as a percentage (0-1 inclusive)
+     * @param selectionPolicy The {@link SelectionPolicy}
+     * @param threadNumber Number of worker threads
+     * @throws OutOfRangeException if the crossover or mutation rate is outside the [0, 1] range
+     */
 	public MultiThreadedGeneticAlgorithm(CrossoverPolicy crossoverPolicy,
 			double crossoverRate, MutationPolicy mutationPolicy,
 			double mutationRate, SelectionPolicy selectionPolicy, int threadNumber)

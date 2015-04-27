@@ -3,6 +3,9 @@ COMMENT: Best tour for berlin52.tsp (7542.0)
 TYPE: TOUR
 DIMENSION: 52
 TOUR_SECTION
+32
+45
+19
 41
 8
 9
@@ -52,8 +55,5 @@ TOUR_SECTION
 22
 1
 49
-32
-45
-19
 -1
 EOF

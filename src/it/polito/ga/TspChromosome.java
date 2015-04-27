@@ -6,7 +6,6 @@ import java.util.List;
 import org.apache.commons.math3.genetics.AbstractListChromosome;
 import org.apache.commons.math3.genetics.Chromosome;
 import org.apache.commons.math3.genetics.InvalidRepresentationException;
-
 /**
  * A chromosome representing a TSP tour.
  * @author Amedeo Sapio (amedeo.sapio@gmail.com)
@@ -19,7 +18,7 @@ public class TspChromosome extends AbstractListChromosome<Integer>{
 	private long [][] distanceMatrix;
 	
 	/**
-	 * Constructor for Traveling Salesaman Problem Chromosome
+	 * Constructor for Traveling Salesman Problem Chromosome
 	 * @param representation Representation of a tour
 	 * @param customers Customers coordinates
 	 * @throws InvalidRepresentationException iff the representation can not represent a valid chromosome
@@ -30,12 +29,16 @@ public class TspChromosome extends AbstractListChromosome<Integer>{
 		
 		this.customers=customers;
 		
-		//build the distance matrix
+		//build the symmetric distance matrix
         distanceMatrix= new long[customers.length][customers.length];
         
-        for (int i=0; i<customers.length; i++)
-        	for (int j=0; j<customers.length; j++)
-        		distanceMatrix[i][j]=TspChromosome.norm(customers, i, j);        
+        for (int i=0; i<customers.length; i++){
+			distanceMatrix[i][i]=0;
+        	for (int j=i+1; j<customers.length; j++){
+        		distanceMatrix[i][j]=TspChromosome.norm(customers, i, j);
+        		distanceMatrix[j][i]=distanceMatrix[i][j];
+        	}        	
+		}        
 	}
 	
 	/**
@@ -191,5 +194,21 @@ public class TspChromosome extends AbstractListChromosome<Integer>{
      */
     public List<Integer> getTour() {
         return new ArrayList<Integer>(super.getRepresentation());
+    }
+    
+    /**
+     * Returns a copy of the tour.
+     * @return a copy of the tour in an array
+     */
+    public Integer[] getTourAsArray() {
+        return super.getRepresentation().toArray(new Integer[super.getRepresentation().size()]);
+    }
+    
+    /**
+     * Returns a copy of element at the position <var>index</var>.
+     * @return a copy of element at the position <var>index</var>.
+     */
+    public Integer getElement(int index){
+    	return new Integer(super.getRepresentation().get(index).intValue());
     }
 }
