@@ -34,24 +34,36 @@ public class TspUntangleMove implements Move
     	
     	Integer[] arrayRepresentation = tspSolution.getTourAsArray();
     	
-    	final int count = arrayRepresentation.length;
-    		
-		Integer swap=arrayRepresentation[(i + 1) % count];
-        arrayRepresentation[(i + 1) % count]= arrayRepresentation[j];
-        arrayRepresentation[j]= swap;
-          
-        int startIndex=i + 2, stopIndex=j - 1;
-          if(!(startIndex >= stopIndex || startIndex >= count || stopIndex < 0))
-              
-              for(; startIndex < stopIndex; stopIndex--)
-              {
-                  swap = arrayRepresentation[startIndex];
-                  arrayRepresentation[startIndex]=arrayRepresentation[stopIndex];
-                  arrayRepresentation[stopIndex]=swap;
-                  startIndex++;
-              }                                    
-
-    	 tspSolution.updateSolution(arrayRepresentation);
+    	final int length = arrayRepresentation.length;
+    	
+    	if(
+				tspSolution.norm(arrayRepresentation[i],arrayRepresentation[(i + 1) % length]) + 
+				tspSolution.norm(arrayRepresentation[j],arrayRepresentation[(j + 1) % length])  
+				> 
+				tspSolution.norm(arrayRepresentation[i],arrayRepresentation[j]) + 
+				tspSolution.norm(arrayRepresentation[(i + 1) % length],arrayRepresentation[(j + 1) % length])
+				){ 		   	    	
+    	
+	    	final int count = arrayRepresentation.length;
+	    		
+			Integer swap=arrayRepresentation[(i + 1) % count];
+	        arrayRepresentation[(i + 1) % count]= arrayRepresentation[j];
+	        arrayRepresentation[j]= swap;
+	          
+	        int startIndex=i + 2, stopIndex=j - 1;
+	          if(!(startIndex >= stopIndex || startIndex >= count || stopIndex < 0))
+	              
+	              for(; startIndex < stopIndex; stopIndex--)
+	              {
+	                  swap = arrayRepresentation[startIndex];
+	                  arrayRepresentation[startIndex]=arrayRepresentation[stopIndex];
+	                  arrayRepresentation[stopIndex]=swap;
+	                  startIndex++;
+	              }                                    
+	
+	          tspSolution.updateSolution(arrayRepresentation);
+    	}
+    	
     }   // end operateOn
     
     public int getI() {

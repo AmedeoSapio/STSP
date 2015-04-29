@@ -2,34 +2,43 @@
 PARAMS
 DataFileDir ./Data
 
+# Maximum GA population size (default equal to the instance dimension)
 MaxPopulationSize 50
 CrossoverRate 1
 MutationRate 0.1
 TournamentArity 2
 Seed 12345
-MaxSeconds 300
+
+# Maximum execution seconds (default equal to the instance dimension)
+#MaxSeconds 300
+
 MaxUnimprovedIterations 100000
 
 # Number or repetitions for dealing with the random behavior  
-Repetitions 2
+Repetitions 10
 
 # Number of thread (by default equal to the number of processors available to the JVM) 
-#ThreadNumber 4
+#ThreadNumber 1
 
-# Tabu Search params
-TSMaxIterations 10
-TabuTenure 5
+## Tabu Search params
+TSMaxIterations 100
+
+# Number of non-repeating iterations after which the tenure is decreased
+DecreaseThreshold 10
+
+# Maximum tabu tenure (default equal to half the instance dimension) 
+#MaxTenure 10
 
 OutputCsv results.csv
 
 ENDPARAMS
 INSTANCES
 berlin52.tsp
-eil51.tsp
-eil76.tsp
-pr152.tsp
-pr1002.tsp
-rat195.tsp
+#eil51.tsp
+#eil76.tsp
+#pr152.tsp
+#pr1002.tsp
+#rat195.tsp
 #rat783.tsp
 #a280.tsp
 #bier127.tsp

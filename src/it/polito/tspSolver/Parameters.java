@@ -20,13 +20,15 @@ public class Parameters {
 	private int _repetitions;
 	private int _threadNumber;
 	private int _tsMaxIterations;
-	private int _tabuTenure;	
+	private int _decreaseThreshold;
+	private int _maxTenure;	
 	private List<String> _instances;
 	private String _outputFile;
 	
 	public Parameters(String dataFileDir, String outputFile, int maxPopulationSize, double crossoverRate,
 			double mutationRate, int tournamentArity, int seed, int maxSeconds,
-			int maxUninmprovedIterations, int repetitions, int threadNumber, int tsMaxIterations, int tabuTenure,
+			int maxUninmprovedIterations, int repetitions, int threadNumber, int tsMaxIterations, 
+			int decreaseThreshold, int maxTenure,
 			List<String> instances) {
 		super();
 		this._dataFileDir = dataFileDir;
@@ -42,7 +44,8 @@ public class Parameters {
 		this._outputFile = outputFile;
 		this._threadNumber = threadNumber;
 		this._tsMaxIterations = tsMaxIterations;
-		this._tabuTenure = tabuTenure;
+		this._maxTenure = maxTenure;
+		this._decreaseThreshold = decreaseThreshold;
 	}
 
 	public String getDataFileDir() {
@@ -133,12 +136,12 @@ public class Parameters {
 		this._tsMaxIterations = tsMaxIterations;
 	}
 
-	public int getTabuTenure() {
-		return _tabuTenure;
+	public int getMaxTenure() {
+		return _maxTenure;
 	}
 
-	public void setTabuTenure(int tabuTenure) {
-		this._tabuTenure = tabuTenure;
+	public void setMaxTenure(int tabuTenure) {
+		this._maxTenure = tabuTenure;
 	}
 
 	public List<String> getInstances() {
@@ -155,5 +158,13 @@ public class Parameters {
 
 	public void setOutputFile(String outputFile) {
 		this._outputFile = outputFile;
+	}
+
+	public int getDecreaseThreshold() {
+		return _decreaseThreshold;
+	}
+
+	public void setDecreaseThreshold(int _decreaseThreshold) {
+		this._decreaseThreshold = _decreaseThreshold;
 	}
 }

@@ -13,7 +13,7 @@ import org.apache.commons.math3.genetics.InvalidRepresentationException;
 public class TspChromosome extends AbstractListChromosome<Integer>{
 	
 	//a chromosome is IMMUTABLE
-	
+		
 	private double[][] customers;
 	private long [][] distanceMatrix;
 	
@@ -211,4 +211,24 @@ public class TspChromosome extends AbstractListChromosome<Integer>{
     public Integer getElement(int index){
     	return new Integer(super.getRepresentation().get(index).intValue());
     }
+    
+    @Override
+	public int hashCode() {    	
+		return getRepresentation().hashCode(); 
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		TspChromosome other = (TspChromosome) obj;
+		if (!getRepresentation().equals(other.getRepresentation()))
+			return false;
+		return true;
+	}
+
 }

@@ -14,6 +14,7 @@ import org.coinor.opents.*;
  */
 public class TspSolution extends SolutionAdapter 
 {    
+	
 	private static final long serialVersionUID = 1L;
 	
 	private TspChromosome chromosome;
@@ -65,4 +66,30 @@ public class TspSolution extends SolutionAdapter
         return chromosome.toString();
     }   // end toString
     
+    public int getLength(){
+    	return chromosome.getLength();
+    }
+    
+    @Override
+	public int hashCode() {
+    	return ((chromosome == null) ? 0 : chromosome.hashCode());
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		TspSolution other = (TspSolution) obj;
+		if (chromosome == null) {
+			if (other.chromosome != null)
+				return false;
+		} else if (!chromosome.equals(other.chromosome))
+			return false;
+		return true;
+	}
+
 }   // end class MySolution

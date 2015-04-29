@@ -6,6 +6,7 @@ import it.polito.ga.TimedNIterationsUnchanged;
 import it.polito.ga.TournamentDiversity_SelectionPolicy;
 import it.polito.ga.TspChromosome;
 import it.polito.ga.TabuSearch_MutationPolicy;
+import it.polito.ga.TwoOpt_MutationPolicy;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -38,17 +39,18 @@ public class TspSolverMain {
 		BufferedWriter csvBw=null;		
 		
 		System.out.println("Data file directory: "+p.getDataFileDir()+"\n"
-				+"MaxPopulationSize: "+p.getMaxPopulationSize() +"\n" 
+				+ (p.getMaxPopulationSize()>0 ? ("MaxPopulationSize: "+p.getMaxPopulationSize() +"\n"):"") 
 				+"CrossoverRate: "+p.getCrossoverRate() +"\n"
 				+"MutationRate: "+p.getMutationRate() +"\n"
 				+"TournamentArity: "+p.getTournamentArity() +"\n"
 				+"Seed: "+p.getSeed() +"\n"
-				+"MaxSeconds: "+p.getMaxSeconds() +"\n"
+				+ (p.getMaxSeconds()>0 ? ("MaxSeconds: "+p.getMaxSeconds() +"\n"):"")
 				+"MaxUnimprovedIterations: "+p.getMaxUninmprovedIterations() +"\n"			  
 				+"Repetitions: "+p.getRepetitions() +"\n"
 				+"ThreadNumber: "+p.getThreadNumber()+"\n"
 				+"TSMaxIterations: "+p.getTSMaxIterations()+"\n"
-				+"TabuTenure: "+p.getTabuTenure()+"\n");
+				+"DecreaseThreshold: "+p.getDecreaseThreshold()+"\n"
+				+ (p.getMaxTenure()>0 ? ("MaxTenure: "+p.getMaxTenure() +"\n"):""));
 		
 		try {			
 			csvFileWriter=new FileWriter(csvFile); 	
@@ -73,8 +75,25 @@ public class TspSolverMain {
 			
 			System.out.println("********************************\n"
 					+ "Instance: "+instance.getName()+"\n"
-					+"Comment: "+instance.getComment()+"\n");
-									
+					+"Comment: "+instance.getComment());
+					
+			if(!(p.getMaxSeconds()>0)){
+				p.setMaxSeconds(instance.getDimension());
+				System.out.println("MaxSeconds: "+p.getMaxSeconds());
+			}			
+			
+			if(!(p.getMaxPopulationSize()>0 )){
+				p.setMaxPopulationSize(instance.getDimension());
+				System.out.println("MaxPopulationSize: "+p.getMaxPopulationSize());
+			}
+			
+			if(!(p.getMaxTenure()>0 )){
+				p.setMaxTenure(instance.getDimension()/2);
+				System.out.println("MaxTenure: "+p.getMaxTenure());
+			}
+			
+			System.out.println("");
+				
 			final int populationLimit=p.getMaxPopulationSize();
 			
 			double meanSolution=0;
@@ -92,8 +111,8 @@ public class TspSolverMain {
 				GeneticAlgorithm ga = new MultiThreadedGeneticAlgorithm(
 				    new OrderedCrossover<Integer>(),	//Crossover policy
 				    p.getCrossoverRate(),	//Crossover rate
-				    //new TwoOpt_MutationPolicy(),	//Mutation policy
-				    new TabuSearch_MutationPolicy(p.getTabuTenure(), p.getTSMaxIterations()),
+				    new TwoOpt_MutationPolicy(),	//Mutation policy
+				    //new TabuSearch_MutationPolicy(p.getMaxTenure(), p.getTSMaxIterations(), p.getDecreaseThreshold()),
 				    p.getMutationRate(),	//Mutation rate
 				    new TournamentDiversity_SelectionPolicy(p.getTournamentArity()), //Selection policy
 				    p.getThreadNumber() //number of threads

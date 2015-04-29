@@ -21,21 +21,24 @@ import org.coinor.opents.SingleThreadedTabuSearch;
 
 public class TabuSearch_MutationPolicy implements MutationPolicy{
 	
-	private int tenure;
-	private int maxIterations;
+	private int _maxTenure;
+	private int _maxIterations;
+	private int _decreaseThreshold;
 
 	/**
 	 * Constructor for TabuSearch_MutationPolicy.
-	 * @param tabuTenure Tabu List's tenure.
+	 * @param maxTenure Tabu List's maximum tenure.
 	 * @param maxIterations Maximum number of iterations.
+	 * @param decreaseThreshold Number of non-repeating iterations after which the tenure is decreased
 	 */
-	public TabuSearch_MutationPolicy(int tabuTenure, int maxIterations) {
-		this.tenure=tabuTenure;
-		this.maxIterations=maxIterations;
+	public TabuSearch_MutationPolicy(int maxTenure, int maxIterations, int decreaseThreshold) {
+		this._maxTenure = maxTenure;
+		this._maxIterations = maxIterations;
+		this._decreaseThreshold = decreaseThreshold;
 	}
 	
 	/**
-	 * Private constructor without parameters, in order to force to set the tenure.
+	 * Private constructor without parameters, in order to force to set parameters.
 	 */
 	@SuppressWarnings("unused")
 	private TabuSearch_MutationPolicy() {
@@ -57,22 +60,19 @@ public class TabuSearch_MutationPolicy implements MutationPolicy{
             throw new MathIllegalArgumentException(new DummyLocalizable("TabuSearch_MutationPolicy works on TSPTour_Chromosome only"));
 		
         // Run Tabu Search
-			
-		TspMoveManager   moveManager = new TspMoveManager();
-				
+					
 		// Create Tabu Search object
 		SingleThreadedTabuSearch tabuSearch = new SingleThreadedTabuSearch(
 				new TspSolution((TspChromosome)initial),
-				moveManager,
+				new TspMoveManager(),
 				new TspObjectiveFunction(),
-				new SimpleTabuList(tenure), // In OpenTS package
+				new SimpleTabuList(_maxTenure), // In OpenTS package
 				new BestEverAspirationCriteria(), // In OpenTS package
 				false ); // maximizing = yes/no; false means minimizing
 
-		tabuSearch.addTabuSearchListener(new TspTSListener());
+		tabuSearch.addTabuSearchListener(new TspTSListener(_maxTenure, _decreaseThreshold));
 		
-		moveManager.setTabuSearch(tabuSearch);
-		tabuSearch.setIterationsToGo(maxIterations);
+		tabuSearch.setIterationsToGo(_maxIterations);
 		
 		// Start solving
 		tabuSearch.startSolving();

@@ -35,7 +35,8 @@ public class FileParser {
 		int maxUnimprovedIterations=-1;
 		int threadNumber = Runtime.getRuntime().availableProcessors();
 		int tsMaxiterations=-1;
-		int tabuTenure=-1;
+		int maxTenure=-1;
+		int decreaseThreshold=-1;
 		
 		List<String> instances=new LinkedList<String>();
 		FileReader paramsFileReader=null;
@@ -89,27 +90,29 @@ public class FileParser {
 										throw new Exception("Output file name not present!");									
 									if (repetitions<0)
 										throw new Exception("Repetitions number invalid or not present!");
-									if (maxPopulationSize<0)
-										throw new Exception("Max Population Size invalid or not present!");
+									//if (maxPopulationSize<0)
+									//	throw new Exception("Max Population Size invalid or not present!");
 									if (crossoverRate<0)
 										throw new Exception("Crossover Rate invalid or not present!");
 									if (mutationRate<0)
 										throw new Exception("Mutation rate invalid or not present!");
 									if (tournamentArity<0)
 										throw new Exception("Tournament arity invalid or not present!");
-									if (maxSeconds<0)
-										throw new Exception("Max Seconds invalid or not present!");
+									//if (maxSeconds<0)
+									//	throw new Exception("Max Seconds invalid or not present!");
 									if (maxUnimprovedIterations<0)
 										throw new Exception("Max Unimproved Iterations invalid or not present!");
 									if (tsMaxiterations<0)
 										throw new Exception("Max Tabu Search Iterations invalid or not present!");
-									if (tabuTenure<0)
-										throw new Exception("Tabu Tenure invalid or not present!");
+									//if (maxTenure<0)
+									//	throw new Exception("Tabu Tenure invalid or not present!");
+									if (decreaseThreshold<0)
+										throw new Exception("DecreaseThreshold invalid or not present!");
 									
 									params=new Parameters(dataFileDir, outputFile, maxPopulationSize,
 											crossoverRate, mutationRate, tournamentArity, seed, maxSeconds,
 											maxUnimprovedIterations, repetitions, threadNumber, tsMaxiterations,
-											tabuTenure, instances);
+											decreaseThreshold, maxTenure, instances);
 									return params;
 								default:
 									throw new Exception("Invalid parameters file format!");
@@ -153,8 +156,10 @@ public class FileParser {
 								threadNumber=Integer.parseInt(nextToken);
 							else if(token.equalsIgnoreCase("TSMaxIterations"))
 								tsMaxiterations=Integer.parseInt(nextToken);
-							else if(token.equalsIgnoreCase("TabuTenure"))
-								tabuTenure=Integer.parseInt(nextToken);
+							else if(token.equalsIgnoreCase("MaxTenure"))
+								maxTenure=Integer.parseInt(nextToken);
+							else if(token.equalsIgnoreCase("DecreaseThreshold"))
+								decreaseThreshold=Integer.parseInt(nextToken);
 							//else skip line							
 						}
 						break;
