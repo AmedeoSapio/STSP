@@ -31,7 +31,7 @@ public class TspSolverMain {
 			System.out.println("Usage: tspSolver <parametersFilePath>\n");		
 			return;
 		}
-		
+
 		//read parameters file
 		Parameters p=FileParser.readParamsFile(args[0]);		
 		File csvFile=new File(p.getDataFileDir()+File.separator+p.getOutputFile());;
@@ -111,13 +111,13 @@ public class TspSolverMain {
 				GeneticAlgorithm ga = new MultiThreadedGeneticAlgorithm(
 				    new OrderedCrossover<Integer>(),	//Crossover policy
 				    p.getCrossoverRate(),	//Crossover rate
-				    new TwoOpt_MutationPolicy(),	//Mutation policy
-				    //new TabuSearch_MutationPolicy(p.getMaxTenure(), p.getTSMaxIterations(), p.getDecreaseThreshold()),
+				    new TwoOpt_MutationPolicy(), //Mutation policy
+				    //new TabuSearch_MutationPolicy(p.getMaxTenure(), p.getTSMaxIterations(), p.getDecreaseThreshold()) 
 				    p.getMutationRate(),	//Mutation rate
 				    new TournamentDiversity_SelectionPolicy(p.getTournamentArity()), //Selection policy
 				    p.getThreadNumber() //number of threads
 				);
-									
+
 				//initial population
 				Population initial = nearestNeighborPopulation(instance.getCustomers(),populationLimit);
 				        
@@ -246,6 +246,7 @@ public class TspSolverMain {
 			System.exit(1);
 		}
 		System.out.println("Results file: "+csvFile.getAbsolutePath());
+		
 		
 	}//end main
 	
